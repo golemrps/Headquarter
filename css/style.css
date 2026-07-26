@@ -119,7 +119,7 @@ button.ghost:hover {
 
 .topbar {
   width: 100%;
-  max-width: 420px;
+  max-width: 560px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,4 +129,260 @@ button.ghost:hover {
 #user-email {
   font-size: 0.85rem;
   color: #9a9a9e;
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #333336;
+  background: #0f0f10;
+  color: #f2f2f2;
+  font-size: 0.9rem;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #333336;
+  background: #0f0f10;
+  color: #f2f2f2;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+/* ---- Aufgabenverwaltung ---- */
+
+.tasks-panel {
+  width: 100%;
+  max-width: 560px;
+  margin-top: 16px;
+}
+
+.tasks-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.category-tab {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #333336;
+  color: #b5b5b9;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.category-tab.active {
+  background: #c9a24b;
+  border-color: #c9a24b;
+  color: #0f0f10;
+}
+
+#sort-mode {
+  width: auto;
+  min-width: 190px;
+}
+
+#new-task-btn {
+  background: #c9a24b;
+  color: #0f0f10;
+  margin-bottom: 16px;
+}
+
+#new-task-btn:hover {
+  background: #d9b465;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty-hint {
+  color: #6f6f73;
+  font-size: 0.9rem;
+  padding: 16px 0;
+}
+
+.task-card {
+  background: #1a1a1c;
+  border: 1px solid #2a2a2d;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.task-card.old {
+  border-color: #7a2e2e;
+  background: #241717;
+}
+
+.task-card.done .task-title {
+  color: #6f6f73;
+  text-decoration: line-through;
+}
+
+.task-card.archived {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: #c9a24b;
+  cursor: pointer;
+}
+
+.task-title {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  margin-left: 28px;
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #2a2a2d;
+  color: #d5d5d8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge.priority-sehr_hoch {
+  background: #5c1f1f;
+  color: #ff9b9b;
+}
+
+.badge.priority-hoch {
+  background: #4a3617;
+  color: #e8bd6f;
+}
+
+.badge.priority-normal {
+  background: #2a2a2d;
+  color: #d5d5d8;
+}
+
+.badge.priority-niedrig {
+  background: #1f2a2f;
+  color: #8fb8c9;
+}
+
+.due-date,
+.created-date {
+  font-size: 0.78rem;
+  color: #9a9a9e;
+  align-self: center;
+}
+
+.due-warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.due-warning {
+  background: #2b1f10;
+  border: 1px solid #6b4a17;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  color: #f0d9ad;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.due-warning-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.due-warning-actions button {
+  width: auto;
+  margin-top: 0;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.archive-toggle {
+  width: auto;
+  margin-top: 18px;
+}
+
+#archive-section {
+  margin-top: 14px;
+}
+
+.subtitle-inline {
+  color: #9a9a9e;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+/* ---- Popup: Aufgabe anlegen/bearbeiten ---- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 20;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 420px;
+  background: #1a1a1c;
+  border: 1px solid #2a2a2d;
+  border-radius: 12px;
+  padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  margin-top: 0;
 }

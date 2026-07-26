@@ -36,27 +36,83 @@
   </form>
 </div>
 
-<!-- DASHBOARD-ANSICHT -->
+<!-- COCKPIT-ANSICHT -->
 <div id="app-view" class="view hidden">
   <header class="topbar">
     <span id="user-email"></span>
     <button id="logout-btn" class="ghost">Abmelden</button>
   </header>
 
-  <main class="card">
-    <h2>Platzhalter-Datensatz</h2>
-    <p class="subtitle">Testet Speichern &amp; Synchronisieren mit Supabase.</p>
+  <main class="tasks-panel">
+    <div id="due-warnings" class="due-warnings"></div>
 
-    <label for="test-value">Testwert</label>
-    <input type="text" id="test-value" placeholder="Trag hier etwas ein..." />
+    <div class="tasks-toolbar">
+      <div class="category-tabs">
+        <button type="button" class="category-tab active" data-category="arbeit">Arbeit</button>
+        <button type="button" class="category-tab" data-category="privat">Privat</button>
+      </div>
 
-    <button id="save-btn">Speichern</button>
-    <p id="save-status" class="status"></p>
+      <select id="sort-mode" aria-label="Sortierung">
+        <option value="priority">Nach Dringlichkeit</option>
+        <option value="oldest">Nach Alter (älteste zuerst)</option>
+      </select>
+    </div>
+
+    <button id="new-task-btn" type="button">+ Neue Aufgabe</button>
+
+    <div id="task-list" class="task-list"></div>
+
+    <button id="archive-toggle-btn" type="button" class="ghost archive-toggle">Archiv anzeigen</button>
+    <div id="archive-section" class="hidden">
+      <h3>Archiv <span class="subtitle-inline">(erledigt seit mehr als 3 Tagen)</span></h3>
+      <div id="archive-list" class="task-list"></div>
+    </div>
   </main>
+</div>
+
+<!-- POPUP: Aufgabe anlegen / bearbeiten -->
+<div id="task-modal" class="modal-overlay hidden">
+  <form id="task-form" class="modal-card">
+    <h2 id="task-modal-title">Neue Aufgabe</h2>
+
+    <label for="task-title-input">Titel</label>
+    <input type="text" id="task-title-input" required />
+
+    <label for="task-category-input">Kategorie</label>
+    <select id="task-category-input">
+      <option value="arbeit">Arbeit</option>
+      <option value="privat">Privat</option>
+    </select>
+
+    <label for="task-priority-input">Dringlichkeit</label>
+    <select id="task-priority-input">
+      <option value="niedrig">Niedrig</option>
+      <option value="normal" selected>Normal</option>
+      <option value="hoch">Hoch</option>
+      <option value="sehr_hoch">Sehr hoch</option>
+    </select>
+
+    <label for="task-effort-input">Anspruch</label>
+    <select id="task-effort-input">
+      <option value="leicht">Leicht</option>
+      <option value="mittel" selected>Mittel</option>
+      <option value="schwer">Schwer</option>
+    </select>
+
+    <label for="task-due-input">Fällig am (optional)</label>
+    <input type="date" id="task-due-input" />
+
+    <p id="task-form-error" class="error"></p>
+
+    <div class="modal-actions">
+      <button type="button" id="task-cancel-btn" class="ghost">Abbrechen</button>
+      <button type="submit">Speichern</button>
+    </div>
+  </form>
 </div>
 
 <script src="js/config.js"></script>
 <script src="js/auth-gate.js"></script>
-<script src="js/app.js"></script>
+<script src="js/tasks.js"></script>
 </body>
 </html>
