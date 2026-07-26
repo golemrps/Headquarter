@@ -137,7 +137,16 @@ function createBuilding(config) {
   return group;
 }
 
-BUILDINGS.forEach(createBuilding);
+// Gebaeude erst nach erfolgreichem Login erzeugen und Szene erst
+// dann starten - vorher ist #app-view ohnehin per CSS verborgen.
+document.addEventListener(
+  "auth-ready",
+  () => {
+    BUILDINGS.forEach(createBuilding);
+    animate();
+  },
+  { once: true }
+);
 
 // ------------------------------------------------------------------
 // Klick-Erkennung: unterscheidet zwischen "Klick" und "Kamera-Drag"
@@ -195,4 +204,3 @@ function animate() {
   renderer.render(scene, camera);
   labelRenderer.render(scene, camera);
 }
-animate();

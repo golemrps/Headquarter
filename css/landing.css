@@ -65,3 +65,108 @@ html, body {
   letter-spacing: 0.04em;
   pointer-events: none;
 }
+
+/* ---- Login-Ansicht (gleiches Aussehen wie im Cockpit) ---- */
+
+.hidden {
+  display: none !important;
+}
+
+.view {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  overflow: auto;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #1a1a1c;
+  border: 1px solid #2a2a2d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 40px;
+}
+
+.card h1 {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  color: #f2f2f2;
+}
+
+.card .subtitle {
+  color: #9a9a9e;
+  margin: 0 0 20px;
+  font-size: 0.9rem;
+}
+
+.card label {
+  display: block;
+  font-size: 0.85rem;
+  color: #b5b5b9;
+  margin: 14px 0 6px;
+}
+
+.card input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #333336;
+  background: #0f0f10;
+  color: #f2f2f2;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.card input:focus {
+  outline: none;
+  border-color: #c9a24b;
+}
+
+.card button[type="submit"] {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #c9a24b;
+  color: #0f0f10;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card button[type="submit"]:hover {
+  background: #d9b465;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 12px;
+  min-height: 1em;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #333336;
+  color: #f2f2f2;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  background: #1f1f22;
+}
+
+.logout-floating {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
