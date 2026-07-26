@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Headquarter · Studium</title>
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f0f10" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+<link rel="stylesheet" href="css/style.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- LOGIN-ANSICHT -->
+<div id="login-view" class="view">
+  <form id="login-form" class="card">
+    <h1>Headquarter</h1>
+    <p class="subtitle">Bitte anmelden</p>
+
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" required autocomplete="username" />
+
+    <label for="password">Passwort</label>
+    <input type="password" id="password" required autocomplete="current-password" />
+
+    <button type="submit">Anmelden</button>
+    <p id="login-error" class="error"></p>
+  </form>
+</div>
+
+<!-- BEREICH-ANSICHT -->
+<div id="app-view" class="view hidden">
+  <header class="topbar">
+    <a href="cockpit.html" class="back-link">← Headquarter</a>
+    <span id="user-email"></span>
+    <button id="logout-btn" class="ghost">Abmelden</button>
+  </header>
+
+  <main class="tasks-panel">
+    <h1 class="page-title">Studium</h1>
+
+    <div id="due-warnings" class="due-warnings"></div>
+
+    <div class="tasks-toolbar">
+      <select id="sort-mode" aria-label="Sortierung">
+        <option value="priority">Nach Dringlichkeit</option>
+        <option value="oldest">Nach Alter (älteste zuerst)</option>
+      </select>
+    </div>
+
+    <button id="new-task-btn" type="button">+ Neue Aufgabe</button>
+
+    <div id="task-list" class="task-list"></div>
+
+    <button id="archive-toggle-btn" type="button" class="ghost archive-toggle">Archiv anzeigen</button>
+    <div id="archive-section" class="hidden">
+      <h3>Archiv <span class="subtitle-inline">(erledigt seit mehr als 3 Tagen)</span></h3>
+      <div id="archive-list" class="task-list"></div>
+    </div>
+  </main>
+</div>
+
+<!-- POPUP: Aufgabe anlegen / bearbeiten -->
+<div id="task-modal" class="modal-overlay hidden">
+  <form id="task-form" class="modal-card">
+    <h2 id="task-modal-title">Neue Aufgabe</h2>
+
+    <label for="task-title-input">Titel</label>
+    <input type="text" id="task-title-input" required />
+
+    <label for="task-priority-input">Dringlichkeit</label>
+    <select id="task-priority-input">
+      <option value="niedrig">Niedrig</option>
+      <option value="normal" selected>Normal</option>
+      <option value="hoch">Hoch</option>
+      <option value="sehr_hoch">Sehr hoch</option>
+    </select>
+
+    <label for="task-due-input">Fällig am (optional)</label>
+    <input type="date" id="task-due-input" />
+
+    <p id="task-form-error" class="error"></p>
+
+    <div class="modal-actions">
+      <button type="button" id="task-cancel-btn" class="ghost">Abbrechen</button>
+      <button type="submit">Speichern</button>
+    </div>
+  </form>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/auth-gate.js"></script>
+<script src="js/shared.js"></script>
+<script>
+createTaskListController({
+  bereich: "studium",
+  showStrang: false,
+  els: {
+    sortSelect: document.getElementById("sort-mode"),
+    taskListEl: document.getElementById("task-list"),
+    warningsEl: document.getElementById("due-warnings"),
+    newTaskBtn: document.getElementById("new-task-btn"),
+    archiveToggleBtn: document.getElementById("archive-toggle-btn"),
+    archiveSection: document.getElementById("archive-section"),
+    archiveListEl: document.getElementById("archive-list"),
+    modal: document.getElementById("task-modal"),
+    taskForm: document.getElementById("task-form"),
+    taskModalTitle: document.getElementById("task-modal-title"),
+    taskFormError: document.getElementById("task-form-error"),
+    titleInput: document.getElementById("task-title-input"),
+    priorityInput: document.getElementById("task-priority-input"),
+    dueInput: document.getElementById("task-due-input"),
+    cancelBtn: document.getElementById("task-cancel-btn"),
+  },
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>

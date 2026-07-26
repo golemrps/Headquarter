@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Headquarter · TikTok</title>
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f0f10" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+<link rel="stylesheet" href="css/style.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- LOGIN-ANSICHT -->
+<div id="login-view" class="view">
+  <form id="login-form" class="card">
+    <h1>Headquarter</h1>
+    <p class="subtitle">Bitte anmelden</p>
+
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" required autocomplete="username" />
+
+    <label for="password">Passwort</label>
+    <input type="password" id="password" required autocomplete="current-password" />
+
+    <button type="submit">Anmelden</button>
+    <p id="login-error" class="error"></p>
+  </form>
+</div>
+
+<!-- BEREICH-ANSICHT -->
+<div id="app-view" class="view hidden">
+  <header class="topbar">
+    <a href="cockpit.html" class="back-link">← Headquarter</a>
+    <span id="user-email"></span>
+    <button id="logout-btn" class="ghost">Abmelden</button>
+  </header>
+
+  <main class="tasks-panel">
+    <h1 class="page-title">TikTok Personal Brand</h1>
+
+    <div id="due-warnings" class="due-warnings"></div>
+
+    <div class="tasks-toolbar">
+      <select id="sort-mode" aria-label="Sortierung">
+        <option value="priority">Nach Dringlichkeit</option>
+        <option value="oldest">Nach Alter (älteste zuerst)</option>
+      </select>
+    </div>
+
+    <button id="new-task-btn" type="button">+ Neue Aufgabe</button>
+
+    <div id="task-list" class="task-list"></div>
+
+    <button id="archive-toggle-btn" type="button" class="ghost archive-toggle">Archiv anzeigen</button>
+    <div id="archive-section" class="hidden">
+      <h3>Archiv <span class="subtitle-inline">(erledigt seit mehr als 3 Tagen)</span></h3>
+      <div id="archive-list" class="task-list"></div>
+    </div>
+
+    <section class="metrics-section">
+      <h2>Kanalzahlen</h2>
+      <form id="metrics-form" class="metrics-form">
+        <label for="metrics-date">Datum</label>
+        <input type="date" id="metrics-date" required />
+
+        <label for="metrics-follower">Follower</label>
+        <input type="number" id="metrics-follower" min="0" />
+
+        <label for="metrics-views">Views</label>
+        <input type="number" id="metrics-views" min="0" />
+
+        <button type="submit">Eintragen</button>
+        <p id="metrics-error" class="error"></p>
+      </form>
+
+      <table class="metrics-table">
+        <thead>
+          <tr><th>Datum</th><th>Follower</th><th>Views</th></tr>
+        </thead>
+        <tbody id="metrics-table-body"></tbody>
+      </table>
+    </section>
+
+    <section class="format-section">
+      <h2>Format-Bibliothek</h2>
+      <p class="subtitle">Gespeicherte Hooks &amp; Videoideen</p>
+
+      <div class="category-tabs">
+        <button type="button" class="category-tab format-tab active" data-typ="alle">Alle</button>
+        <button type="button" class="category-tab format-tab" data-typ="hook">Hooks</button>
+        <button type="button" class="category-tab format-tab" data-typ="videoidee">Videoideen</button>
+      </div>
+
+      <div id="format-list" class="format-list"></div>
+    </section>
+  </main>
+</div>
+
+<!-- POPUP: Aufgabe anlegen / bearbeiten -->
+<div id="task-modal" class="modal-overlay hidden">
+  <form id="task-form" class="modal-card">
+    <h2 id="task-modal-title">Neue Aufgabe</h2>
+
+    <label for="task-title-input">Titel</label>
+    <input type="text" id="task-title-input" required />
+
+    <label for="task-priority-input">Dringlichkeit</label>
+    <select id="task-priority-input">
+      <option value="niedrig">Niedrig</option>
+      <option value="normal" selected>Normal</option>
+      <option value="hoch">Hoch</option>
+      <option value="sehr_hoch">Sehr hoch</option>
+    </select>
+
+    <label for="task-due-input">Fällig am (optional)</label>
+    <input type="date" id="task-due-input" />
+
+    <p id="task-form-error" class="error"></p>
+
+    <div class="modal-actions">
+      <button type="button" id="task-cancel-btn" class="ghost">Abbrechen</button>
+      <button type="submit">Speichern</button>
+    </div>
+  </form>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/auth-gate.js"></script>
+<script src="js/shared.js"></script>
+<script>
+createTaskListController({
+  bereich: "tiktok",
+  showStrang: false,
+  els: {
+    sortSelect: document.getElementById("sort-mode"),
+    taskListEl: document.getElementById("task-list"),
+    warningsEl: document.getElementById("due-warnings"),
+    newTaskBtn: document.getElementById("new-task-btn"),
+    archiveToggleBtn: document.getElementById("archive-toggle-btn"),
+    archiveSection: document.getElementById("archive-section"),
+    archiveListEl: document.getElementById("archive-list"),
+    modal: document.getElementById("task-modal"),
+    taskForm: document.getElementById("task-form"),
+    taskModalTitle: document.getElementById("task-modal-title"),
+    taskFormError: document.getElementById("task-form-error"),
+    titleInput: document.getElementById("task-title-input"),
+    priorityInput: document.getElementById("task-priority-input"),
+    dueInput: document.getElementById("task-due-input"),
+    cancelBtn: document.getElementById("task-cancel-btn"),
+  },
+});
+
+createMetricsController({
+  bereich: "tiktok",
+  els: {
+    formEl: document.getElementById("metrics-form"),
+    dateInput: document.getElementById("metrics-date"),
+    followerInput: document.getElementById("metrics-follower"),
+    viewsInput: document.getElementById("metrics-views"),
+    tableBody: document.getElementById("metrics-table-body"),
+    errorEl: document.getElementById("metrics-error"),
+  },
+});
+
+// ---- Format-Bibliothek: nur Anzeige + Kopieren, kein Anlegen ----
+const FORMAT_TYP_LABELS = { hook: "Hook", videoidee: "Videoidee" };
+let formatEntries = [];
+let activeFormatTyp = "alle";
+const formatListEl = document.getElementById("format-list");
+const formatTabs = document.querySelectorAll(".format-tab");
+
+async function loadFormatLibrary() {
+  const { data, error } = await supabaseClient
+    .from("format_library")
+    .select("*")
+    .order("datum", { ascending: false });
+  if (error) {
+    formatListEl.textContent = "Fehler beim Laden: " + error.message;
+    return;
+  }
+  formatEntries = data;
+  renderFormatLibrary();
+}
+
+function renderFormatLibrary() {
+  const list =
+    activeFormatTyp === "alle" ? formatEntries : formatEntries.filter((e) => e.typ === activeFormatTyp);
+
+  formatListEl.innerHTML = "";
+  if (list.length === 0) {
+    formatListEl.appendChild(buildEmptyHint("Noch nichts in der Bibliothek."));
+    return;
+  }
+
+  list.forEach((entry) => {
+    const card = document.createElement("div");
+    card.className = "format-card";
+
+    const head = document.createElement("div");
+    head.className = "format-card-head";
+
+    const typBadge = document.createElement("span");
+    typBadge.className = "badge";
+    typBadge.textContent = FORMAT_TYP_LABELS[entry.typ] || entry.typ;
+    head.appendChild(typBadge);
+
+    const date = document.createElement("span");
+    date.className = "created-date";
+    date.textContent = formatDate(entry.datum);
+    head.appendChild(date);
+
+    const text = document.createElement("p");
+    text.className = "format-text";
+    text.textContent = entry.text;
+
+    const card2 = document.createElement("div");
+    card2.appendChild(head);
+    card2.appendChild(text);
+
+    if (entry.notiz) {
+      const notizEl = document.createElement("p");
+      notizEl.className = "format-notiz";
+      notizEl.textContent = entry.notiz;
+      card2.appendChild(notizEl);
+    }
+
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "ghost copy-btn";
+    copyBtn.textContent = "Kopieren";
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(entry.text);
+        copyBtn.textContent = "Kopiert ✓";
+        setTimeout(() => (copyBtn.textContent = "Kopieren"), 1500);
+      } catch {
+        copyBtn.textContent = "Fehler";
+      }
+    });
+
+    card.appendChild(card2);
+    card.appendChild(copyBtn);
+    formatListEl.appendChild(card);
+  });
+}
+
+formatTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    activeFormatTyp = tab.dataset.typ;
+    formatTabs.forEach((t) => t.classList.toggle("active", t === tab));
+    renderFormatLibrary();
+  });
+});
+
+document.addEventListener("auth-ready", loadFormatLibrary);
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
