@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>harmony&amp;aesthetic Land</title>
+
+<!-- PWA: macht die Seite "installierbar" auf Handy/PC -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f0f10" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+<link rel="stylesheet" href="css/landing.css" />
+
+<!-- Three.js per CDN, kein Build-Step / npm noetig -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+<div id="labels"></div>
+
+<div class="brand">harmony&amp;aesthetic <span>Land</span></div>
+<div class="hint">Ziehen zum Drehen &middot; Scrollen zum Zoomen</div>
+
+<script type="module" src="js/landing.js"></script>
+</body>
+</html>

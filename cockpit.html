@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Headquarter · Cockpit</title>
+
+<!-- PWA: macht die Seite "installierbar" auf Handy/PC -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f0f10" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+<link rel="stylesheet" href="css/style.css" />
+
+<!-- Supabase-JS Library per CDN, kein npm/Build-Step noetig -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- LOGIN-ANSICHT -->
+<div id="login-view" class="view">
+  <form id="login-form" class="card">
+    <h1>Headquarter</h1>
+    <p class="subtitle">Bitte anmelden</p>
+
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" required autocomplete="username" />
+
+    <label for="password">Passwort</label>
+    <input type="password" id="password" required autocomplete="current-password" />
+
+    <button type="submit">Anmelden</button>
+    <p id="login-error" class="error"></p>
+  </form>
+</div>
+
+<!-- DASHBOARD-ANSICHT -->
+<div id="dashboard-view" class="view hidden">
+  <header class="topbar">
+    <span id="user-email"></span>
+    <button id="logout-btn" class="ghost">Abmelden</button>
+  </header>
+
+  <main class="card">
+    <h2>Platzhalter-Datensatz</h2>
+    <p class="subtitle">Testet Speichern &amp; Synchronisieren mit Supabase.</p>
+
+    <label for="test-value">Testwert</label>
+    <input type="text" id="test-value" placeholder="Trag hier etwas ein..." />
+
+    <button id="save-btn">Speichern</button>
+    <p id="save-status" class="status"></p>
+  </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
